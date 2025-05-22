@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block title %}Аналитика по категориям{% endblock %}
+{% load custom_filters %}
+
+{% block content %}
+
+    <div class="container bg-light-yellow text-dark px-5">
+        <h1><b><font color="#d2691e">Expense Calculator</font></b></h1>
+        <br>
+
+        <div class="container px-5">
+            <br>
+            <a class="btn btn-outline-secondary" href="{% url 'index' %}">На главную</a>
+            <br>
+            <br>
+            <div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th class="text-center" valign="middle"> Категория</th>
+                        <th class="text-center" valign="middle" colspan="2"> Этот месяц</th>
+                        <th class="text-center" valign="middle" colspan="2"> Прошлый месяц</th>
+                        <th class="text-center" valign="middle" colspan="2"> Этот месяц прошлого года</th>
+                        <th class="text-center" valign="middle" colspan="2"> Среднее значение: в этом году / мес.</th>
+                        <th class="text-center" valign="middle" colspan="2"> Среднее значение: в прошлом году / мес.
+                        </th>
+                        <th class="text-center" valign="middle" colspan="2"> Среднее значение: за все время / мес.</th>
+                        <th class="text-center" valign="middle" colspan="2"> Этот год</th>
+                        <th class="text-center" valign="middle" colspan="2"> Прошлый год</th>
+                        <th class="text-center" valign="middle" colspan="2"> За все время</th>
+                    </tr>
+                    <tr>
+                        <td>Название</td>
+                        <td class="text-center">руб.</td>
+                        <td class="text-center">%</td>
+                        <td class="text-center">руб.</td>
+                        <td class="text-center">%</td>
+                        <td class="text-center">руб.</td>
+                        <td class="text-center">%</td>
+                        <td class="text-center">руб.</td>
+                        <td class="text-center">%</td>
+                        <td class="text-center">руб.</td>
+                        <td class="text-center">%</td>
+                        <td class="text-center">руб.</td>
+                        <td class="text-center">%</td>
+                        <td class="text-center">руб.</td>
+                        <td class="text-center">%</td>
+                        <td class="text-center">руб.</td>
+                        <td class="text-center">%</td>
+                        <td class="text-center">руб.</td>
+                        <td class="text-center">%</td>
+                    </tr>
+
+
+                    </thead>
+                    <tbody>
+                    {% for item in category_data %}
+                        <tr>
+                            <td>{{ item.name }}</td>
+                            <td class="text-end">{{ item.month_category_expenses }}</td>
+                            <td class="text-end">{{ item.percent_of_month_category_expenses }}</td>
+                            <td class="text-end">{{ item.previous_month_category_expenses }}</td>
+                            <td class="text-end">{{ item.percent_of_previous_month_category_expenses }}</td>
+                            <td class="text-end">{{ item.last_year_same_month_category_expenses }}</td>
+                            <td class="text-end">{{ item.percent_of_last_year_same_month_category_expenses }}</td>
+                            <td class="text-end">{{ item.current_year_avg_monthly_expense }}</td>
+                            <td class="text-end">{{ item.percent_of_current_year_avg_monthly_expense }}</td>
+                            <td class="text-end">{{ item.previous_year_avg_monthly_expense }}</td>
+                            <td class="text-end">{{ item.percent_of_previous_year_avg_monthly_expense }}</td>
+                            <td class="text-end">{{ item.all_time_avg_monthly_expense }}</td>
+                            <td class="text-end">{{ item.percent_of_all_time_avg_monthly_expense }}</td>
+                            <td class="text-end">{{ item.current_year_category_expenses }}</td>
+                            <td class="text-end">{{ item.percent_of_current_year_category_expenses }}</td>
+                            <td class="text-end">{{ item.previous_year_category_expenses }}</td>
+                            <td class="text-end">{{ item.percent_of_previous_year_category_expenses }}</td>
+                            <td class="text-end">{{ item.all_time_category_expenses }}</td>
+                            <td class="text-end">{{ item.percent_of_all_time_expenses }}</td>
+                        </tr>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <a class="btn btn-outline-secondary" href="{% url 'index' %}">На главную</a>
+        </div>
+    </div>
+
+{% endblock %}

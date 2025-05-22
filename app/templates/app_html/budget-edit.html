@@ -1,0 +1,5 @@
+<form method="post" action="{% url 'edit-budget' object.pk %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-outline-dark">Сохранить изменения</button>
+</form>

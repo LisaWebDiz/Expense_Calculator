@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Статья алиментов{% endblock %}
+{% load custom_filters %}
+
+{% block content %}
+
+    <div class="container bg-light-yellow text-dark px-5">
+        <h1><b><font color="#d2691e">Expense Calculator</font></b></h1>
+        <br>
+
+        <div class="container px-5">
+            <br>
+            <a class="btn btn-outline-secondary" href="{% url 'index' %}">На главную</a>
+            <br>
+            <br>
+            <h3>Алименты {{ current_month_name }} {{ sum_month_alimony_expenses }} руб.</h3>
+            <div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Число</th>
+                        <th>Расход</th>
+                        <th>Категория</th>
+                        <th>Описание</th>
+                    </tr>
+                    <thead>
+                    <tbody>
+                    {% for expense in alimony_month_expenses %}
+                        <tr>
+                            <td>{{ expense.date }}</td>
+                            <td class="text-end">{{ expense.expense }}</td>
+                            <td>{{ expense.category }}</td>
+                            <td>{{ expense.description }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <a class="btn btn-outline-secondary" href="{% url 'index' %}">На главную</a>
+
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}Аналитика{% endblock %}
+{% block content %}
+    <div class="container px-5">
+        <br>
+        <h3>Категория {{ category_name }}</h3>
+        <table class="table table-bordered">
+            <tbody>
+            <tr>
+                <td>Этот месяц</td>
+                <td>{{ month_category_expenses }} руб.</td>
+                <td>{{ percent_of_month_category_expenses }}% от всех трат/мес.</td>
+            </tr>
+            <tr>
+            <td>Прошлый месяц</td>
+            <td> {{ previous_month_category_expenses }} руб.</td>
+            <td>{{ percent_of_previous_month_category_expenses }}% от всех трат/мес.</td>
+            </tr>
+            <tr>
+                <td>Этот месяц прошлого года</td>
+                <td> {{ last_year_same_month_category_expenses }} руб.</td>
+                <td>{{ percent_of_last_year_same_month_category_expenses }}% от всех трат/мес.</td>
+            </tr>
+            <tr>
+                <td>Среднее значение: в этом году / мес.</td>
+                <td>{{ current_year_avg_monthly_expense }} руб.</td>
+                <td>{{ percent_of_current_year_avg_monthly_expense }}% от всех трат/мес.</td>
+            </tr>
+            <tr>
+                <td>Среднее значение: в прошлом году / мес.</td>
+                <td> {{ previous_year_avg_monthly_expense }} руб.</td>
+                <td>{{ percent_of_previous_year_avg_monthly_expense }}% от всех трат/мес.</td>
+            </tr>
+            <tr>
+                <td>Среднее значение: за все время / мес.</td>
+                <td> {{ all_time_avg_monthly_expense }} руб.</td>
+                <td> {{ percent_of_all_time_avg_monthly_expense }}% от всех трат/мес.</td>
+            </tr>
+            <tr>
+                <td>Этот год</td>
+                <td> {{ current_year_category_expenses }} руб.</td>
+                <td> {{ percent_of_current_year_category_expenses }}% от всех трат/год</td>
+            </tr>
+            <tr>
+                <td>Прошлый год</td>
+                <td> {{ previous_year_category_expenses }} руб.</td>
+                <td> {{ percent_of_previous_year_category_expenses }}% от всех трат/год</td>
+            </tr>
+            <tr>
+                <td>За все время</td>
+                <td> {{ all_time_category_expenses }} руб.</td>
+                <td> {{ percent_of_all_time_expenses }}% от всех трат</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <a class="btn btn-outline-secondary" href="{% url 'index' %}">На главную</a>
+    </div>
+{% endblock %}

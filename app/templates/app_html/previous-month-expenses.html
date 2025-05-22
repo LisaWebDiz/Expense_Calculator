@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+{% block title %}Прошлый месяц{% endblock %}
+{% block content %}
+
+    <div class="container bg-light-yellow text-dark px-5">
+        <h1><b><font color="#d2691e">Expense Calculator</font></b></h1>
+        <br>
+
+        <div class="container px-5">
+            <br>
+            <a class="btn btn-outline-secondary" href="{% url 'index' %}">На главную</a>
+            <br>
+            <h3 class="text-end"><i>{{ previous_month_name }}:</i> <b>{{ month_total_sum }} руб.</b></h3>
+            <h5 class="text-end"><i>в том числе обязательные расходы {{ month_total_sum_not_excessive }} руб.
+                или {{ month_percent_not_excessive }}%</i></h5>
+            <br>
+            <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Число</th>
+                        <th>Расход</th>
+                        <th>Категория</th>
+                        <th>Описание</th>
+                        <th>Алименты</th>
+                        <th>Необязательный</th>
+                        <th>Обновить</th>
+                        <th>Удалить</th>
+                    </thead>
+                    <tbody>
+                    {% for expense in previous_month_expenses %}
+                        <tr>
+                            <td class="text-center">{{ expense.date }}</td>
+                            <td class="text-end"> {{ expense.expense }}</td>
+                            <td class="text-center">{{ expense.category }}</td>
+                            <td>{{ expense.description }}</td>
+                            <td>
+                                {% if expense.alimony %}
+                                    <h6 class="text-center"><i class="text-center bi bi-check-lg"
+                                                               style='font-size:20px;color:green'></i></h6>
+                                    <!-- Bootstrap иконка -->
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if expense.is_excessive %}
+                                    <h6 class="text-center"><i class="text-center bi bi-check-lg"
+                                                               style='font-size:20px;color:green'></i></h6>
+                                    <!-- Bootstrap иконка -->
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                <!-- Кнопка для открытия модального окна "Обновить" -->
+                                <a href="#" class="btn btn-outline-primary me-2 open-edit-modal"
+                                   data-bs-toggle="modal"
+                                   data-bs-target="#expenseModal"
+                                   data-expense-id="{{ expense.id }}">Обновить
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                <!-- Кнопка, которая открывает модальное окно -->
+                                <button type="button" class="btn btn-outline-danger"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#confirmDeleteModal"
+                                        data-expense-url="{% url 'delete-expense' expense.pk %}"> Удалить
+                                </button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="modal fade" id="expenseModal" tabindex="-1" aria-labelledby="expenseModalLabel"
+                 aria-hidden="true" data-bs-backdrop="false">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="expenseModalLabel">Редактировать расход</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Динамически загружаемая форма -->
+                            <div id="expenseFormContainer">
+                                <!-- Форма загрузится через AJAX -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const expenseModalElement = document.getElementById('expenseModal');
+                    const expenseModal = new bootstrap.Modal(expenseModalElement); // Экземпляр модального окна
+                    const formContainer = document.getElementById('expenseFormContainer');
+
+                    document.querySelectorAll('.open-edit-modal').forEach(button => {
+                        button.addEventListener('click', function () {
+                            const expenseId = this.dataset.expenseId;
+
+                            fetch(`/expense/update/${expenseId}/`, {
+                                method: 'GET',
+                                headers: {
+                                    'X-Requested-With': 'XMLHttpRequest',
+                                },
+                            })
+                                .then(response => response.text())
+                                .then(html => {
+                                    formContainer.innerHTML = html;
+                                    expenseModal.show();
+                                })
+                                .catch(error => console.error('Ошибка загрузки формы:', error));
+                        });
+                    });
+
+                    formContainer.addEventListener('submit', function (event) {
+                        if (event.target.tagName === 'FORM') {
+                            event.preventDefault();
+                            const form = event.target;
+                            const formData = new FormData(form);
+
+                            fetch(form.action, {
+                                method: 'POST',
+                                body: formData,
+                                headers: {
+                                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                                },
+                            })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        expenseModal.hide();
+                                        location.reload();
+                                    } else {
+                                        alert('Ошибка обновления: ' + JSON.stringify(data.errors));
+                                    }
+                                })
+                                .catch(error => console.error('Ошибка отправки формы:', error));
+                        }
+                    });
+                });
+            </script>
+            <!-- Модальное окно подтверждения удаления-->
+            <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel"
+                 aria-hidden="true" data-bs-backdrop="false">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confirmDeleteLabel">Подтвердите удаление</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Закрыть"></button>
+                        </div>
+                        <div class="modal-body">
+                            Вы уверены, что хотите удалить этот расход?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                            <form method="post" id="deleteExpenseForm">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Удалить</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const confirmDeleteModal = document.getElementById("confirmDeleteModal");
+                    const deleteExpenseForm = document.getElementById("deleteExpenseForm");
+
+                    confirmDeleteModal.addEventListener("show.bs.modal", function (event) {
+                        const button = event.relatedTarget;
+                        const expenseUrl = button.getAttribute("data-expense-url");
+
+                        deleteExpenseForm.setAttribute("action", expenseUrl);
+                    });
+                });
+            </script>
+            <a class="btn btn-outline-secondary" href="{% url 'index' %}">На главную</a>
+        </div>
+    </div>
+{% endblock %}
