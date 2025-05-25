@@ -3,7 +3,8 @@ version: '3.9'
 services:
   web:
     build: .
-    command: gunicorn ExpCalc.wsgi:application --bind 0.0.0.0:8000
+#    command: gunicorn ExpCalc.wsgi:application --bind 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
     ports:
