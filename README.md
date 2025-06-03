@@ -1,4 +1,4 @@
-### Expense Calculator Pet Project 2025
+# Expense Calculator Pet Project 2025
 ### Description
 
 
@@ -23,3 +23,9 @@ docker-compose exec web python manage.py migrate
 docker-compose exec web python manage.py createsuperuser
 
 Enjoy!
+
+### Api Documentation
+Swagger: http://localhost:8000/swagger/
+Redoc: http://localhost:8000/redoc/
+
+
