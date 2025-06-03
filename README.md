@@ -15,8 +15,8 @@ docker-compose exec web python manage.py createsuperuser
 Enjoy!
 
 ### Api Documentation
-Swagger: http://localhost:8000/swagger/
-Redoc: http://localhost:8000/redoc/
+    • Swagger: http://localhost:8000/swagger/
+    • Redoc: http://localhost:8000/redoc/
 
 ### Features
     • User registration and login via Djoser
