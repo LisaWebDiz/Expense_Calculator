@@ -32,13 +32,19 @@ Enjoy!
 ### Pages
 
 ![Registration](assets/registration.png)
+
 ![Login](assets/login.png)
+
 ![Add_Category](assets/add_category.png)
-![Add_Expense](assets/add_expense.png)
-![Current_Month](assets/current_month.png)
-![Diagram](assets/diagram.png)
+![Main_Page_Diagram](assets/main_page_diagram.png)
+![Main_Page_Current_Month](assets/main_page_current_month.png)
+
 ![Edit_Expense](assets/edit_expense.png)
+
 ![Delete_Expense](assets/delete_expense.png)
+
 ![Category_Analysis](assets/category_analysis.png)
+
 ![Categories_Analysis](assets/categories_analysis.png)
+
 ![Periods](assets/periods.png)
