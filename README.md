@@ -1,6 +1,6 @@
 # Expense Calculator Pet Project 2025
 ### Description
-A Django-based web application for tracking and analyzing personal financial expenses. Add, edit, and delete your expenses. Categorize spending for better organization. Group expenses by various time periods. Set and monitor monthly budgets. Visual analytics with charts and tables. Secure — each authenticated user has access only to their own data. Clean and user-friendly interface. 
+A Django-based web application for tracking and analyzing personal financial expenses. Add, edit, and delete your expenses. Categorize spending for better organization. Group expenses by various time periods. Set and monitor monthly budgets. Visual analytics with charts and tables. CSV file upload functionality for quick and efficient data import. Secure — each authenticated user has access only to their own data. Clean and user-friendly interface. 
 This app helps users gain insights into their financial habits and make informed budgeting decisions.
 
 ### Quick start via Docker
@@ -26,7 +26,7 @@ Enjoy!
     • Fully documented REST API
     • Data storage using PostgreSQL
     • Built-in pgAdmin interface for managing the database at http://localhost:5050
-    • Admin panel at http://localhost:8000/admin/
+    • Automated CSV import feature to reduce manual data entry
     • Frontend styled with CSS and Bootstrap
 
 ### Pages
